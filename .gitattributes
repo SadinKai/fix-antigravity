@@ -1,0 +1,2 @@
+# Preserve canonical package bytes and checksum parity on every platform.
+/skills/** -text
