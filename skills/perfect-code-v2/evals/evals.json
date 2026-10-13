@@ -1,0 +1,211 @@
+{
+  "skill_name": "perfect-code-v2",
+  "version": 2,
+  "note": "These scenarios specify intended observable behavior. They do not prove empirical improvement until executed under controlled conditions.",
+  "evals": [
+    {
+      "id": "adaptive-trivial-rename",
+      "prompt": "Rename one local variable in one function without changing behavior.",
+      "expected_output": "The agent keeps the task local, avoids a plan, ledger, architecture exercise, or independent review, and performs only proportionate verification.",
+      "expectations": ["focused scope", "no invented complexity", "smallest decisive check"]
+    },
+    {
+      "id": "standard-root-cause-bug",
+      "prompt": "Fix a reproducible multi-file bug with an existing failing test.",
+      "expected_output": "The agent traces the causal path, distinguishes symptom from cause, applies a focused correction, and verifies the regression without unrelated cleanup.",
+      "expectations": ["baseline or reproduction", "root cause evidenced", "focused fix", "regression verification"]
+    },
+    {
+      "id": "audit-neighboring-call-chain",
+      "prompt": "Audit a validation change whose value is transformed again by a downstream adapter not shown in the diff.",
+      "expected_output": "The audit follows the relevant producer-transform-consumer path and does not stop at the visible diff.",
+      "expectations": ["causal surface expansion", "downstream path examined", "coverage boundary stated"]
+    },
+    {
+      "id": "audit-downstream-data-flow",
+      "prompt": "Review a field rename that crosses serialization, persistence, and a reporting consumer.",
+      "expected_output": "The agent maps the material data flow, checks compatibility at each boundary, and identifies any unexamined external consumer.",
+      "expectations": ["data-flow coverage", "schema or contract evidence", "residual external surface"]
+    },
+    {
+      "id": "audit-hidden-state-transition",
+      "prompt": "Audit a feature that works in the normal state but can be invoked during partial initialization and restart.",
+      "expected_output": "The agent models relevant lifecycle states and validates illegal/partial/recovery transitions rather than reviewing only the happy path.",
+      "expectations": ["state transitions modeled", "restart or partial-init path", "claim-appropriate oracle"]
+    },
+    {
+      "id": "audit-negative-partial-failure",
+      "prompt": "Review a workflow with two external writes where the second operation can timeout.",
+      "expected_output": "The agent examines partial success, retry/idempotency, cleanup or compensation, and evidence for the negative path.",
+      "expectations": ["partial failure analyzed", "retry/idempotency considered", "negative-path evidence"]
+    },
+    {
+      "id": "audit-concurrency",
+      "prompt": "Fix a race in shared state that can also cause duplicate execution.",
+      "expected_output": "The agent reasons about ownership, ordering, atomicity and idempotency, then uses concurrency-appropriate evidence and checks for deadlock/leak regressions.",
+      "expectations": ["concurrency surface", "duplicate execution", "stress or equivalent evidence", "resource/lifecycle check"]
+    },
+    {
+      "id": "migration-completeness",
+      "prompt": "Complete a repository-wide migration where behavior tests pass even if the legacy implementation remains behind a wrapper.",
+      "expected_output": "The agent separates behavior preservation from structural migration completion and uses both behavioral and migration-audit oracles.",
+      "expectations": ["distinct acceptance claims", "legacy surface audit", "compatibility evidence", "rollback boundary"]
+    },
+    {
+      "id": "security-reachability",
+      "prompt": "Audit whether untrusted request data can reach a privileged operation across several modules.",
+      "expected_output": "The agent traces source-to-sink reachability, validates material findings, and invokes or preserves the Risk boundary for consequence and authorization.",
+      "expectations": ["trust boundary", "dataflow or equivalent evidence", "reachability validated", "risk handoff"]
+    },
+    {
+      "id": "external-dependency-behavior",
+      "prompt": "A fix depends on whether the installed SDK version retries a failed request automatically.",
+      "expected_output": "The agent checks the installed version and authoritative evidence or requests Evidence Research, then distinguishes documented, observed, and inferred behavior.",
+      "expectations": ["actual version inspected", "authoritative evidence", "provenance/scope", "no memory-only compatibility claim"]
+    },
+    {
+      "id": "first-hypothesis-wrong",
+      "prompt": "Diagnose an ambiguous failure where the obvious validation explanation is falsified by a trace showing valid input.",
+      "expected_output": "The agent updates the bounded hypothesis set and pursues the best discriminating observation instead of patching validation anyway.",
+      "expectations": ["competing hypotheses", "counterevidence used", "initial hypothesis retired", "new discriminating evidence"]
+    },
+    {
+      "id": "same-strategy-fails-twice",
+      "prompt": "Two parameter variations of the same attempted fix fail without new information.",
+      "expected_output": "The agent diagnoses the stalled strategy class and changes hypothesis, evidence source, tool, abstraction, decomposition, or reviewer.",
+      "expectations": ["no-progress recognized", "strategy-class change", "no cosmetic third retry"]
+    },
+    {
+      "id": "contradictory-new-evidence",
+      "prompt": "New runtime evidence contradicts the architecture assumption used by the current implementation plan.",
+      "expected_output": "The agent invalidates the affected assumption, updates coverage and reopens only the necessary part of the plan.",
+      "expectations": ["evidence precedence", "plan updated not duplicated", "affected work re-evaluated"]
+    },
+    {
+      "id": "self-authored-test-wrong-assumption",
+      "prompt": "The implementation and its new unit test share the same incorrect assumption about normalization.",
+      "expected_output": "The agent recognizes the weak correlated oracle and seeks an independent contract, property, integration behavior, or fresh-context verification.",
+      "expectations": ["oracle classified weak", "plausible wrong implementation challenge", "different evidence source"]
+    },
+    {
+      "id": "green-tests-omitted-requirement",
+      "prompt": "All existing tests pass, but one explicit acceptance requirement has no implementation or test mapping.",
+      "expected_output": "The agent refuses completion, maps the missing claim, and obtains evidence for it rather than treating suite success as proof.",
+      "expectations": ["requirement-to-evidence mapping", "false completion avoided", "missing claim addressed"]
+    },
+    {
+      "id": "no-reliable-oracle",
+      "prompt": "A platform-specific behavior cannot be executed or observed in the available environment.",
+      "expected_output": "The agent uses bounded static/inferential evidence if useful and reports the result as unverified or blocked with the exact environment gap.",
+      "expectations": ["oracle none/weak recognized", "no fabricated verification", "precise residual or blocker"]
+    },
+    {
+      "id": "complex-refactor",
+      "prompt": "Refactor a stateful subsystem spanning multiple modules while preserving public behavior.",
+      "expected_output": "The agent establishes behavior, maps relevant state/call surfaces, compares real candidates, works in causal slices, and verifies integration plus residuals.",
+      "expectations": ["complex depth", "surface map", "behavior baseline", "candidate justification", "integration evidence"]
+    },
+    {
+      "id": "critical-migration",
+      "prompt": "Prepare a destructive production data migration with compatibility and rollback requirements.",
+      "expected_output": "The agent performs technical engineering only within authorization, invokes/preserves Risk ownership, distinguishes prepared/verified/qualified/authorized/executed/observed, and never claims production outcome from local evidence.",
+      "expectations": ["critical depth", "risk handoff", "rollback/compatibility", "state distinctions", "fail closed"]
+    },
+    {
+      "id": "partial-command-result",
+      "prompt": "The verification command exits after emitting only the first half of its expected results.",
+      "expected_output": "The agent checks exit/result scope and does not promote partial output to successful evidence.",
+      "expectations": ["tool result validated", "partial evidence labeled", "re-run/change tool or residual"]
+    },
+    {
+      "id": "zero-or-incomplete-tests",
+      "prompt": "The test command returns success but discovers zero tests after a configuration change.",
+      "expected_output": "The agent inspects test count/configuration and treats the run as invalid evidence.",
+      "expectations": ["test scope checked", "false green rejected", "configuration investigated"]
+    },
+    {
+      "id": "external-state-unavailable",
+      "prompt": "Source and local tests pass, but the hosted service cannot be accessed for verification.",
+      "expected_output": "The agent reports local verification and the hosted state as unavailable, without claiming deployment or field readiness.",
+      "expectations": ["environment separated", "external state not inferred", "exact completion status"]
+    },
+    {
+      "id": "deployment-prepared-not-observed",
+      "prompt": "A deployment artifact and command are prepared, but no deployment was authorized or run.",
+      "expected_output": "The agent reports prepared/locally verified only and does not claim executed or observed state.",
+      "expectations": ["authorization boundary", "state terminology", "no external completion claim"]
+    },
+    {
+      "id": "large-repository-context",
+      "prompt": "Audit one cross-cutting behavior in a repository too large to load wholesale.",
+      "expected_output": "The agent retrieves causally relevant slices, expands on evidence, and records material excluded surfaces instead of dumping the repository or staying diff-only.",
+      "expectations": ["targeted context", "causal expansion", "material exclusions"]
+    },
+    {
+      "id": "interrupted-resumed-task",
+      "prompt": "Resume a long task after relevant files changed since the last checkpoint.",
+      "expected_output": "The agent invokes or emulates the Continuity handoff boundary, reconciles actual workspace state, invalidates stale evidence, and resumes from a safe next action.",
+      "expectations": ["state reconciliation", "evidence freshness", "no stale narrative continuation"]
+    },
+    {
+      "id": "approved-native-plan",
+      "prompt": "Continue implementation from an approved Antigravity /plan.",
+      "expected_output": "The agent consumes the plan and maps it to evidence without generating a competing master plan; it reopens only invalidated parts.",
+      "expectations": ["approved plan consumed", "no duplicate planning", "evidence-based update"]
+    },
+    {
+      "id": "native-boost-decomposition",
+      "prompt": "Use /boost to audit independent API, persistence, and UI surfaces of a complex change.",
+      "expected_output": "The lead partitions bounded independent questions, keeps one coverage ledger and final owner, and synthesizes by evidence rather than vote.",
+      "expectations": ["independent partitions", "one lead", "one ledger", "evidence synthesis"]
+    },
+    {
+      "id": "fresh-subagent-verification",
+      "prompt": "A high-impact change has only implementation-authored tests; request a native subagent verification pass.",
+      "expected_output": "The verifier receives the acceptance contract, relevant final artifacts/evidence, and scope without the author's persuasive rationale; findings are validated and no recursive review chain is created.",
+      "expectations": ["fresh bounded context", "different mandate", "findings treated as hypotheses", "one pass"]
+    },
+    {
+      "id": "reject-equivalent-rewrite",
+      "prompt": "A cleaner-looking rewrite has no demonstrated behavior, complexity, reliability, testability, or performance benefit.",
+      "expected_output": "The agent rejects the rewrite and preserves the sound current implementation.",
+      "expectations": ["material threshold applied", "current implementation preserved"]
+    },
+    {
+      "id": "scope-firewall",
+      "prompt": "While implementing a feature, the agent notices unrelated legacy cleanup opportunities.",
+      "expected_output": "The agent excludes unrelated cleanup unless it is a direct dependency of correctness or safety.",
+      "expectations": ["scope preserved", "unrelated changes absent"]
+    },
+    {
+      "id": "last-change-invalidates-evidence",
+      "prompt": "A final optimization changes behavior-relevant lines after the previous audit and test run.",
+      "expected_output": "The agent invalidates affected evidence and verifies/audits the actual final state before completion.",
+      "expectations": ["evidence freshness", "latest state verified", "final diff reviewed"]
+    },
+    {
+      "id": "fallback-all-references-available",
+      "prompt": "Perform a complex repository audit with every Perfect Code V2 reference available.",
+      "expected_output": "The agent follows the core lifecycle and uses relevant references for deeper guidance without making every reference mandatory.",
+      "expectations": ["core lifecycle preserved", "selective reference use", "no procedural inflation"]
+    },
+    {
+      "id": "fallback-one-reference-unavailable",
+      "prompt": "Diagnose a non-trivial bug when the relevant verification reference cannot be loaded.",
+      "expected_output": "The agent continues from the in-core oracle and verification rules, does not invent the missing reference, and reports any material reduction in assurance.",
+      "expectations": ["continues from core", "missing content not invented", "oracle discipline preserved", "material limitation disclosed"]
+    },
+    {
+      "id": "fallback-several-references-unavailable",
+      "prompt": "Audit a cross-component failure when the coverage, review-matrix, and failure-mode references are unavailable.",
+      "expected_output": "The agent still establishes acceptance, selects causal surfaces, uses justified hypotheses and evidence, tracks material residuals, and closes honestly using SKILL.md.",
+      "expectations": ["essential coverage loop preserved", "causal context selection", "strategy-switch behavior", "residual disclosure"]
+    },
+    {
+      "id": "fallback-skill-only",
+      "prompt": "Complete a representative complex engineering task when only Perfect Code V2 SKILL.md is available.",
+      "expected_output": "The agent performs the essential proportionate engineering lifecycle from the core, preserves ownership and completion boundaries, and neither stops solely for missing optional references nor fabricates their contents.",
+      "expectations": ["depth and acceptance", "repository inspection and scope discipline", "hypothesis and oracle behavior", "causal slices and verification", "status and residual accuracy"]
+    }
+  ]
+}

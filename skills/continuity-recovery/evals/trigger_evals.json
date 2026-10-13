@@ -1,0 +1,33 @@
+{
+  "skill_name": "continuity-recovery",
+  "positive": [
+    {"query": "/continuity-recovery reconcile this resumed task with the repository and tell me the next safe action.", "should_trigger": true, "reason": "explicit invocation and resumed-state reconciliation"},
+    {"query": "Resume the migration from last week, but verify the old checkpoint against the current database and working tree first.", "should_trigger": true, "reason": "cross-session resume with actual-state reconciliation"},
+    {"query": "The conversation was compacted and I am not sure the summary preserved all constraints; recover safely.", "should_trigger": true, "reason": "context loss and constraint reconstruction"},
+    {"query": "Two nearly identical fixes failed. Decide whether to retry, change strategy, escalate, or stop.", "should_trigger": true, "reason": "repeated failed strategy and recovery decision"},
+    {"query": "The task ledger says tests passed, but code changed after that run. Reconcile what remains verified.", "should_trigger": true, "reason": "stale evidence and contradictory state"},
+    {"query": "A subagent handed back changes and test claims; verify the handoff against the actual branch before continuing.", "should_trigger": true, "reason": "multi-agent handoff reconciliation"},
+    {"query": "This multi-day refactor is pausing at milestone three. Preserve the verified state and next safe action.", "should_trigger": true, "reason": "long-horizon checkpoint"},
+    {"query": "The deployment command failed after partial changes. Establish actual state before any retry or rollback.", "should_trigger": true, "reason": "partial external mutation and recovery"},
+    {"query": "Current workspace changes contradict yesterday's record, and some may be mine. Do not overwrite them.", "should_trigger": true, "reason": "stale ledger and user-change preservation"},
+    {"query": "An external dependency is unavailable. Determine whether the work is blocked or truly infeasible.", "should_trigger": true, "reason": "blocked versus infeasible classification"},
+    {"query": "The evidence packet's refresh condition was crossed after a provider version change; update task state.", "should_trigger": true, "reason": "external evidence invalidation"},
+    {"query": "The approved plan's main hypothesis was falsified at runtime. Freeze the old path and recover.", "should_trigger": true, "reason": "plan premise invalidation and strategy change"},
+    {"query": "We are handing a long-running task to another session. Produce a compact evidence-linked checkpoint.", "should_trigger": true, "reason": "planned interruption and handoff"},
+    {"query": "A prior authorization expired while the task was paused; reconcile what can still proceed.", "should_trigger": true, "reason": "authority loss on resume"}
+  ],
+  "negative": [
+    {"query": "What is 19 times 7?", "should_trigger": false, "reason": "simple one-turn question"},
+    {"query": "Fix this obvious typo in one Markdown heading.", "should_trigger": false, "reason": "tiny deterministic edit"},
+    {"query": "Explain dependency injection in one paragraph.", "should_trigger": false, "reason": "stable explanatory question"},
+    {"query": "Add a small local validation rule; the task is fresh, uninterrupted, and has a direct unit test.", "should_trigger": false, "reason": "ordinary standard engineering with stable context"},
+    {"query": "Write a short fictional scene about a lost astronaut.", "should_trigger": false, "reason": "creative task with no continuity value"},
+    {"query": "Remember everything I ever say in every future project.", "should_trigger": false, "reason": "generic memory request outside semantic task continuity"},
+    {"query": "Create a complete project plan and assign every task to agents.", "should_trigger": false, "reason": "native planning and orchestration ownership"},
+    {"query": "Research the latest API limits and cite current primary sources.", "should_trigger": false, "reason": "Evidence Research owns fresh external factual research"},
+    {"query": "Implement and verify this cross-file bug fix; no interruption or stale state exists.", "should_trigger": false, "reason": "Perfect Code engineering lifecycle without continuity trigger"},
+    {"query": "Authorize and execute a destructive production rollback.", "should_trigger": false, "reason": "Risk and authority gate rather than continuity alone"},
+    {"query": "Summarize the supplied transcript without continuing the task.", "should_trigger": false, "reason": "closed-corpus summarization, not recovery"},
+    {"query": "The native progress artifact is current and complete; continue the next approved step with no contradictions.", "should_trigger": false, "reason": "native state already sufficient and stable"}
+  ]
+}

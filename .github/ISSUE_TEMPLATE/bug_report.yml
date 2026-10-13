@@ -1,0 +1,56 @@
+name: Bug report
+description: Report a reproducible problem in a skill, installer, verifier, or document.
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Do not include credentials, private repository data, or vulnerability details. Use the process in SECURITY.md for sensitive reports.
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      options:
+        - perfect-code-v2
+        - evidence-research
+        - continuity-recovery
+        - risk-change-assurance
+        - installer or verifier
+        - integrated operating contract
+        - documentation
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: Antigravity surface and version, operating system, and installation mode.
+    validations:
+      required: true
+  - type: textarea
+    id: observed
+    attributes:
+      label: Observed behavior
+      description: What happened? Separate direct observation from inference.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal safe reproduction
+      description: Include commands or prompts that contain no secrets or private data.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Checks and evidence
+      description: State what actually ran and any remaining uncertainty.

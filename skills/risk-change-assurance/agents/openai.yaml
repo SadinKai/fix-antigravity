@@ -1,0 +1,4 @@
+interface:
+  display_name: "Risk & Change Assurance"
+  short_description: "Gate security and consequential changes"
+  default_prompt: "Use $risk-change-assurance to assess this change and explicitly gate its next consequential state transition."

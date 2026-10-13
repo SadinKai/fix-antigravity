@@ -1,0 +1,4 @@
+interface:
+  display_name: "Continuity & Recovery"
+  short_description: "Reconcile and safely resume disrupted work"
+  default_prompt: "Use $continuity-recovery to reconcile this task with its actual current state and identify the next safe action."

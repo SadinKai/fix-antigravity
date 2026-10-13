@@ -1,0 +1,4 @@
+interface:
+  display_name: "Evidence Research"
+  short_description: "Current facts with provenance and confidence"
+  default_prompt: "Use $evidence-research to verify this current claim with source applicability, freshness, contradictions, and calibrated confidence."

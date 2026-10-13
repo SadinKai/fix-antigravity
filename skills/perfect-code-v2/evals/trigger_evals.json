@@ -1,0 +1,33 @@
+{
+  "skill_name": "perfect-code-v2",
+  "positive": [
+    {"query": "/perfect-code-v2 implement this non-trivial repository change and verify it proportionately.", "should_trigger": true, "reason": "canonical Antigravity manual invocation"},
+    {"query": "$perfect-code-v2 implement this non-trivial repository change and verify it proportionately.", "should_trigger": true, "reason": "host-specific OpenAI/Codex metadata invocation remains compatible where supported"},
+    {"query": "Use Perfect Code V2 to implement this feature in the existing repository.", "should_trigger": true, "reason": "explicit invocation"},
+    {"query": "Fix this multi-file bug, find the root cause, and verify the negative path.", "should_trigger": true, "reason": "repository debugging"},
+    {"query": "Refactor this stateful module without changing its public behavior.", "should_trigger": true, "reason": "non-trivial refactor"},
+    {"query": "Audit this repository for correctness defects across callers and data flows.", "should_trigger": true, "reason": "code/system audit"},
+    {"query": "Review this architecture change and implement the smallest sound design.", "should_trigger": true, "reason": "engineering architecture"},
+    {"query": "Optimize this hot path and measure whether the change improves tail latency.", "should_trigger": true, "reason": "performance engineering"},
+    {"query": "Design tests for this cross-service behavior and determine whether the current suite is adequate.", "should_trigger": true, "reason": "repository-grounded testing strategy"},
+    {"query": "Debug this browser interaction using the application code and runtime evidence.", "should_trigger": true, "reason": "UI/runtime engineering"},
+    {"query": "Fix this concurrency issue involving duplicate execution and stale state.", "should_trigger": true, "reason": "concurrency engineering"},
+    {"query": "Migrate these components while preserving compatibility and proving migration completeness.", "should_trigger": true, "reason": "multi-component engineering"},
+    {"query": "The tests pass, but audit whether they prove every acceptance requirement.", "should_trigger": true, "reason": "oracle and requirement audit"},
+    {"query": "Trace whether untrusted data can reach this privileged operation and provide code evidence.", "should_trigger": true, "reason": "technical security reachability"}
+  ],
+  "negative": [
+    {"query": "Explain what dependency injection means.", "should_trigger": false, "reason": "simple stable question"},
+    {"query": "Fix this obvious spelling error in one comment.", "should_trigger": false, "reason": "typo-only edit"},
+    {"query": "Run the formatter on this already-scoped file.", "should_trigger": false, "reason": "format-only edit"},
+    {"query": "Change this one literal from 10 to 20; the exact expected diff is provided.", "should_trigger": false, "reason": "simple local change"},
+    {"query": "Research the latest licensing terms for this external service.", "should_trigger": false, "reason": "pure external research"},
+    {"query": "Create a PowerPoint presentation from these notes.", "should_trigger": false, "reason": "non-code artifact"},
+    {"query": "Use the database-migration workflow to generate the already-specified migration artifact.", "should_trigger": false, "reason": "narrower domain workflow fully governs"},
+    {"query": "Assess whether the owner is legally authorized to perform this irreversible production action; do not change code.", "should_trigger": false, "reason": "read-only consequence assessment should be risk-led"},
+    {"query": "What is O(n log n)?", "should_trigger": false, "reason": "simple stable question"},
+    {"query": "Show a minimal JavaScript filter example.", "should_trigger": false, "reason": "generic example"},
+    {"query": "Translate this paragraph into French.", "should_trigger": false, "reason": "non-code task"},
+    {"query": "Summarize this external API announcement without inspecting a repository.", "should_trigger": false, "reason": "pure research/summarization"}
+  ]
+}

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Perfect Code V2"
+  short_description: "Evidence-directed engineering and audit coverage"
+  default_prompt: "Use $perfect-code-v2 for this non-trivial coding task, scaling investigation and verification to the repository evidence, risk, and uncertainty."

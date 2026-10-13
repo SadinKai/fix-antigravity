@@ -1,0 +1,32 @@
+{
+  "skill_name": "evidence-research",
+  "positive": [
+    {"query": "/evidence-research verify whether the current API supports this option and cite the governing source.", "should_trigger": true, "reason": "explicit Antigravity invocation and current API fact"},
+    {"query": "Research the latest Gemini model capability and show primary sources.", "should_trigger": true, "reason": "latest model capability and source request"},
+    {"query": "Which currently supported versions are affected by this security advisory?", "should_trigger": true, "reason": "current high-stakes advisory fact"},
+    {"query": "What is the current stable version of this framework and is our target platform supported?", "should_trigger": true, "reason": "current software version and compatibility"},
+    {"query": "The official documentation and the installed runtime disagree. Determine what each proves.", "should_trigger": true, "reason": "conflicting evidence and environment applicability"},
+    {"query": "Compare these two providers using current primary evidence and note non-comparable claims.", "should_trigger": true, "reason": "current research comparison"},
+    {"query": "Find reliable sources for this disputed technical claim.", "should_trigger": true, "reason": "explicit source research"},
+    {"query": "Perfect Code needs to know whether SDK 8.2 retries failed writes before choosing an implementation.", "should_trigger": true, "reason": "bounded external fact for engineering"},
+    {"query": "Risk & Change Assurance needs current affected and fixed versions for CVE-EXAMPLE.", "should_trigger": true, "reason": "bounded advisory fact for risk"},
+    {"query": "Was this issue actually fixed in the latest release, or is there only a changelog claim?", "should_trigger": true, "reason": "issue and release status interpretation"},
+    {"query": "These two regulators publish conflicting scope statements; determine which applies in this jurisdiction.", "should_trigger": true, "reason": "high-stakes source conflict and jurisdiction"},
+    {"query": "Verify whether the announced feature rollout is available to every current plan and region.", "should_trigger": true, "reason": "current rollout and scope claim"},
+    {"query": "Check whether these benchmark numbers are directly comparable across models and harnesses.", "should_trigger": true, "reason": "benchmark evidence discipline"}
+  ],
+  "negative": [
+    {"query": "What is 17 times 8?", "should_trigger": false, "reason": "basic arithmetic"},
+    {"query": "Who wrote Pride and Prejudice?", "should_trigger": false, "reason": "stable common historical fact"},
+    {"query": "Fix this local syntax error; the compiler output identifies the exact line.", "should_trigger": false, "reason": "routine coding with deterministic local evidence"},
+    {"query": "Write a surreal story about a city made of clocks.", "should_trigger": false, "reason": "creative writing without factual claims"},
+    {"query": "Format this Markdown table without changing its content.", "should_trigger": false, "reason": "formatting-only task"},
+    {"query": "Which package version is declared in this local lockfile?", "should_trigger": false, "reason": "purely local deterministic fact"},
+    {"query": "Reuse yesterday's verified evidence; its source, version, and refresh conditions are unchanged and still valid.", "should_trigger": false, "reason": "already-verified evidence remains fresh"},
+    {"query": "Generate the invoice using the existing accounting workflow and supplied values.", "should_trigger": false, "reason": "domain workflow does not require external facts"},
+    {"query": "Translate this paragraph into Tamil.", "should_trigger": false, "reason": "translation task"},
+    {"query": "Summarize only the text I pasted; do not verify or add facts.", "should_trigger": false, "reason": "closed-corpus summarization"},
+    {"query": "Report whether the local test command passed from the provided complete output.", "should_trigger": false, "reason": "deterministic supplied evidence"},
+    {"query": "Brainstorm fictional names for a future API with no claim about current products.", "should_trigger": false, "reason": "creative ideation without factual assertion"}
+  ]
+}
