@@ -1,5 +1,7 @@
 # Usage Guide
 
+For an executable first task, use [the disposable notification demo](../examples/first-success/README.md). Its human-reference oracle check is not an AI trial. See [evaluation](evaluation.md) for the separate model protocol and NOT RUN boundaries.
+
 ## 1. Verify discovery
 
 After installation, start a fresh Antigravity session in a disposable or ordinary development workspace. Ask the agent to list the skill it would use and why before making changes. The answer is a routing observation, not proof by itself; inspect whether the resulting behavior follows the selected `SKILL.md`.

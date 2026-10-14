@@ -1,117 +1,105 @@
-# Installation
+# Installation, updates and recovery
 
-## Supported paths
+Read [compatibility/input limits](compatibility.md). Automation targets Windows PowerShell 5.1 and PowerShell 7; no external module is needed. Review scripts first. Follow organizational execution policy; never pipe a remote script into a shell.
 
-Google's Antigravity documentation currently distinguishes these locations:
+## Acquire and choose
 
-| Surface | Global skills | Workspace skills | Modular rules |
-|---|---|---|---|
-| Antigravity IDE / Google Antigravity 2.0 | `~/.gemini/config/skills/<skill>/` | `.agents/skills/<skill>/` | `~/.gemini/config/rules/*.md` |
-| Antigravity CLI | `~/.gemini/antigravity-cli/skills/<skill>/` | `.agents/skills/<skill>/` | `~/.gemini/antigravity-cli/rules/*.md` |
-
-The CLI and IDE may evolve. Confirm paths in the documentation for your installed version: [Agent skills](https://www.antigravity.google/docs/skills?tab=ide), [workflow migration](https://www.antigravity.google/docs/migration/workflows-to-skills/), and [rules](https://antigravity.google/docs/rules/).
-
-The local qualification environment also contained `~/.gemini/config/skills.json` and a global `~/.gemini/GEMINI.md`. Those are observations, not universal requirements. Folder discovery is the default documented installation path. This project never overwrites `GEMINI.md`; manifest registration is an explicit compatibility option only.
-
-## Download
-
-After publication, clone the repository URL shown on its GitHub page, then enter the checkout:
-
-```powershell
+~~~powershell
 git clone https://github.com/SadinKai/fix-antigravity.git
 Set-Location .\fix-antigravity
-```
+# IDE / app:
+$skillRoot = Join-Path $HOME '.gemini\config\skills'
+# CLI instead:
+# $skillRoot = Join-Path $HOME '.gemini\antigravity-cli\skills'
+# Workspace instead, outside this checkout:
+# $skillRoot = 'C:\work\your-project\.agents\skills'
+~~~
 
-A downloaded archive from the same repository works as well.
+An inspected archive works too. Main moves; [release guidance](releases.md) explains commit pinning and actual release status. CLI and IDE global roots differ. [Official paths](https://www.antigravity.google/docs/skills?tab=ide) govern your host version.
 
-## Mode A: individual skills
+Destinations/recovery storage must not overlap the checkout, active roots or each other. Links/junctions are refused; do not blindly replace user-managed links.
 
-### Safe installer — IDE / 2.0 global default
+Relative filesystem parameters use the caller's current PowerShell filesystem location, including nonexistent targets and normalized dot segments, not the process working directory. Relative paths from a non-filesystem provider fail before writes. The same resolver is used by verification, snapshots and recovery helpers.
 
-Preview, install, and verify:
+## Individual mode
 
-```powershell
-.\scripts\install.ps1 -WhatIf
-.\scripts\install.ps1
-.\scripts\verify-install.ps1
-```
-
-### Antigravity CLI global
-
-```powershell
-$skillRoot = Join-Path $HOME '.gemini\antigravity-cli\skills'
+~~~powershell
+.\scripts\install.ps1 -TargetSkillRoot $skillRoot -WhatIf
 .\scripts\install.ps1 -TargetSkillRoot $skillRoot
 .\scripts\verify-install.ps1 -TargetSkillRoot $skillRoot
-```
+~~~
 
-### Workspace-local
+Preview performs read-only preflight and creates no installation/configuration/backups. Malformed sources/configuration still fail in preview. Identical packages are skipped; conflicts require explicit review/replacement.
 
-Run from this repository and supply the target workspace explicitly:
+## Integrated mode (opt-in)
 
-```powershell
-$skillRoot = 'C:\path\to\your-project\.agents\skills'
-.\scripts\install.ps1 -TargetSkillRoot $skillRoot
-.\scripts\verify-install.ps1 -TargetSkillRoot $skillRoot
-```
-
-Start a fresh Antigravity session after installation. Use the discovery or invocation mechanism supported by your version. Current Antigravity documentation describes slash invocation such as `/perfect-code-v2`; the `$perfect-code-v2` value in package metadata belongs to OpenAI/Codex-compatible hosts and is not Antigravity slash syntax.
-
-## Mode B: integrated stack
-
-Integrated mode also installs the portable operating contract as a modular rule. This is separately opted into:
-
-```powershell
-.\scripts\install.ps1 -EnableIntegrated
-.\scripts\verify-install.ps1 -Integrated
-```
-
-For CLI-global rules, override the path:
-
-```powershell
-$skillRoot = Join-Path $HOME '.gemini\antigravity-cli\skills'
-$rulePath = Join-Path $HOME '.gemini\antigravity-cli\rules\four-skill-stack.md'
+~~~powershell
+$rulePath = Join-Path $HOME '.gemini\config\rules\four-skill-stack.md'
+# CLI instead:
+# $rulePath = Join-Path $HOME '.gemini\antigravity-cli\rules\four-skill-stack.md'
+.\scripts\install.ps1 -TargetSkillRoot $skillRoot -EnableIntegrated -RulePath $rulePath -WhatIf
 .\scripts\install.ps1 -TargetSkillRoot $skillRoot -EnableIntegrated -RulePath $rulePath
 .\scripts\verify-install.ps1 -TargetSkillRoot $skillRoot -Integrated -RulePath $rulePath
-```
+~~~
 
-The rule includes the YAML frontmatter required by Antigravity modular rules. It does not edit `GEMINI.md`, bypass permissions, or create an orchestrator.
+The unchanged always_on contract is guidance, not enforcement. No GEMINI.md or permission setting is changed. Start a fresh host session and try [the disposable demo](../examples/first-success/README.md). Filesystem PASS does not establish discovery/activation.
 
-## Existing conflicts
+Antigravity invocation: /perfect-code-v2, /evidence-research, /continuity-recovery, /risk-change-assurance. Dollar-prefixed metadata is host-specific.
 
-The installer compares complete package trees. An identical package is skipped. A changed or extra file is a conflict and stops the whole preflight before installation begins.
+## Update and conflicts
 
-Review the conflict, then opt into replacement only if appropriate:
+Acquire an inspected approved revision separately. Verify its manifest; do not change hashes to accept unexpected content. Preserve customizations and stop competing writers. Use the same exact skill/rule/manifest paths as before.
 
-```powershell
-.\scripts\install.ps1 -ReplaceConflicts
-```
+A changed/extra installed file is a user-installation conflict. Invalid source inventory is a source-integrity failure that replacement never bypasses. After inspecting differences:
 
-The previous package or rule is moved to a timestamped sibling backup before the new copy is activated. Replacement is never silent. `-WhatIf` previews planned mutations.
+~~~powershell
+.\scripts\install.ps1 -TargetSkillRoot $skillRoot -ReplaceConflicts -WhatIf
+.\scripts\install.ps1 -TargetSkillRoot $skillRoot -ReplaceConflicts
+.\scripts\verify-install.ps1 -TargetSkillRoot $skillRoot
+~~~
 
-## Optional manifest registration
+Include matching integrated options when updating that rule; manifest options only when actually required.
 
-Only use this when your installation requires `skills.json`:
+## Recovery artifacts
 
-```powershell
-.\scripts\install.ps1 -RegisterManifest
-.\scripts\verify-install.ps1 -CheckManifest
-```
+Default root: parent-of-selected-skill-root/fix-antigravity-recovery. Explicit and default recovery roots are validated against the selected target and documented workspace/global/legacy/plugin layouts, including the recovery path's own ancestry. Unsafe overlap fails before writes. See [the supported boundary](compatibility.md#recovery-and-candidate-boundaries); this cannot enumerate arbitrary custom indexing roots.
 
-The installer parses the existing JSON before any mutation, preserves unrelated properties and entries, adds only missing package paths, and creates a backup before a changed manifest is written. Invalid JSON stops preflight. It never replaces the manifest wholesale with a project-owned template.
+Each unique target-name.timestamp.GUID operation directory contains:
 
-## Manual installation
+- restore-info.json: exact destination, original/replacement snapshots and UTC date.
+- backup: verified prior copy, when one existed.
+- previous: preserved active original after deactivation, when applicable.
+- staged/failed-activation: possible retained failure artifacts.
 
-Copy the four directories under `skills/` into the appropriate global or workspace skill root. Preserve every file and directory. If integrated behavior is desired, copy `integration/four-skill-stack.md` into the appropriate modular rules directory. Do not paste it over an existing rule or `GEMINI.md`.
+Keep receipts/backups private. No old backup is automatically deleted. Historical in-root duplicate candidates block pending manual review; they are not silently migrated.
 
-Compare installed files with [`checksums.sha256`](../checksums.sha256) or run the verifier with explicit paths.
+Staging and backup verification precede active moves. On failure the installer inspects actual effects, attempts restoration without overwriting unexpected content, and verifies before claiming recovery. Failed restoration identifies artifacts for manual action. Earlier successful destinations are **not** rolled back automatically.
 
-## Removal
+## Restore a previous installation
 
-First verify the target and inspect any backups. Then remove only these four exact package directories from the skill root:
+1. Stop competing writers. Read the exact restore-info.json; confirm destination, source revision, backup contents and ownership.
+2. Dot-source scripts/package-common.ps1 from the inspected checkout. Compare Get-StackSnapshot of backup with the receipt's originalSnapshot; stop on mismatch.
+3. Stage a copy outside discovery roots and verify that snapshot. Preserve the current active destination separately before replacing it; never overwrite unexplained changes.
+4. Move only that exact active destination to a new unique recovery location, then copy the verified prior package/rule/configuration to the exact destination. If either step fails, stop and inspect actual effects; preserved copies remain recovery sources.
+5. Verify restored bytes against originalSnapshot. For an older version use its matching manifest/verifier; the newer verifier may correctly reject the restored version.
+6. Restart and inspect host discovery separately. Restore additional packages only when their receipts/compatibility require it.
 
-- `perfect-code-v2`
-- `evidence-research`
-- `continuity-recovery`
-- `risk-change-assurance`
+A backup's existence alone does not prove rollback viability. Do not use broad cleanup commands.
 
-If integrated mode was enabled, remove only the `four-skill-stack.md` rule that matches this repository. If you opted into manifest registration, parse `skills.json`, remove only entries for these installed package paths, and preserve every unrelated entry and property. The project intentionally does not automate removal because deciding whether an installed package, edited rule, or manifest entry is still user-owned requires review.
+## Optional observed manifest compatibility
+
+Folder discovery is default. Only when your installation actually requires the observed entries/path format:
+
+~~~powershell
+.\scripts\install.ps1 -TargetSkillRoot $skillRoot -RegisterManifest -ManifestPath 'C:\exact\config\skills.json' -WhatIf
+.\scripts\install.ps1 -TargetSkillRoot $skillRoot -RegisterManifest -ManifestPath 'C:\exact\config\skills.json'
+.\scripts\verify-install.ps1 -TargetSkillRoot $skillRoot -CheckManifest -ManifestPath 'C:\exact\config\skills.json'
+~~~
+
+Empty object roots work. Strict bounded JSON is validated; unrelated subtrees/entries remain verbatim and are checked through a semantic round trip before writes. UTF-8 BOM choice is preserved. The final encoded bytes, including the BOM, must fit 1,048,576 bytes before any requested package/rule/configuration operation starts; those same bytes are staged and written. Merged files use verified recovery; malformed/oversized inputs are rejected, not repaired. See [limits](compatibility.md).
+
+## Manual installation and removal
+
+Copy the four complete package directories into the matching root. Never leave staging/backups containing SKILL.md there. Preserve local work. Copy the contract to a modular rule only if wanted; never overwrite GEMINI.md. Verify explicit paths.
+
+For removal, review ownership and preserve modifications, then remove only these exact package directories: perfect-code-v2, evidence-research, continuity-recovery, risk-change-assurance. Remove only this project's matching rule and registrations if installed. Preserve unrelated skills/rules/properties and recovery artifacts. No broad cleanup or automatic uninstall is provided.

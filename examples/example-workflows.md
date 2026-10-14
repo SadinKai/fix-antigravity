@@ -2,6 +2,8 @@
 
 These examples demonstrate intended routing. They do not prove which skills a particular model loaded; inspect the behavior and evidence produced.
 
+For a small executable fixture, follow [the first-success demo](first-success/README.md). For controlled trials and current NOT RUN results, see [the evaluation protocol](../docs/evaluation.md).
+
 ## 1. Repository bug
 
 **Prompt**

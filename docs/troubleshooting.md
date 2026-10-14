@@ -1,45 +1,35 @@
 # Troubleshooting
 
-## A skill is not discovered
+## Discovery or routing
 
-1. Confirm the selected Antigravity surface and version.
-2. Run `scripts/verify-install.ps1` with the same `-TargetSkillRoot` used for installation.
-3. Confirm each package contains `SKILL.md` at its root.
-4. Start a fresh Antigravity session.
-5. Check the current [Antigravity skill paths](https://www.antigravity.google/docs/skills?tab=ide). CLI-global and IDE / 2.0-global roots differ.
+Confirm host/version and [matching root](compatibility.md); run the verifier with identical explicit paths, confirm root-level SKILL.md, then restart. Filesystem PASS is not activation proof. Do not guess manifest registrations.
 
-Do not add manifest entries merely by guess. Use `-RegisterManifest` only if your installation actually requires the observed compatibility manifest.
+Historical backup/duplicate candidates are preserved and block pending review. Move reviewed copies outside discovery roots manually; never delete them to silence validation. New recovery storage is printed during replacement.
 
-## The integrated contract is ignored
+For integrated mode, verify matching -Integrated/-RulePath and always_on frontmatter. Rules are guidance, not guaranteed routing. Trivial tasks should remain trivial.
 
-Run:
+## Preview or source validation
 
-```powershell
-.\scripts\verify-install.ps1 -Integrated -RulePath 'C:\exact\path\to\four-skill-stack.md'
-```
+Record $PSVersionTable. Use Windows PowerShell 5.1 or PowerShell 7. Preview is read-only; malformed sources/configuration still fail. Never alter checksums to accept unknown files. -ReplaceConflicts does not bypass source-integrity checks.
 
-Confirm the rule is in the modular rule directory for the active surface and retains its YAML frontmatter with `trigger: always_on`. Restart the session. A valid rule is persistent guidance, not a guarantee that a model will route perfectly.
+Links/junctions/hard links, unsafe path overlap and unexpected files are intentional boundaries. Preserve ownership and choose ordinary reviewed directories; do not blindly delete links/extras.
 
-## Installer reports a conflict
+## Replacement or restoration failure
 
-A conflict means the target package or rule differs from this release, including extra files. Inspect both copies. Keep the existing version if it contains user work. If replacement is intentional, rerun with `-ReplaceConflicts`; the installer moves the prior copy to a timestamped backup first.
+Stop retrying. Inspect the exact active destination, printed recovery directory and restore-info.json. RESTORATION NOT VERIFIED is not rollback success. Preserve backup/previous/staging and unexpected active content. Follow [restoration](installation.md#restore-a-previous-installation).
 
-## Manifest parsing fails
+Earlier destinations may already be updated; installation is not one transaction. Interrupted processes can leave an active target absent/changed despite preserved copies. Reconcile effects before retry.
 
-The installer performs no mutation when the selected manifest is invalid during preflight. Repair the JSON with a parser or omit manifest registration when folder discovery is supported. Do not replace the file with a minimal project-only manifest; it may contain unrelated registrations or properties.
+## Optional manifest rejection
 
-## Permission prompts appear
+Folder discovery needs no registration. The observed compatibility mode accepts object roots and entries arrays with unique string paths. Empty objects work; ambiguous, malformed, unsupported encoding/depth inputs are not repaired. See [JSON limits](compatibility.md). Keep the original until ownership and correction are reviewed.
 
-Use Antigravity's native permission flow. These skills and scripts do not bypass Deny, Ask, sandbox, filesystem, URL, MCP, or project controls. Choose a user-writable target or perform a reviewed manual install.
+## Permission or execution policy
 
-## Verification reports changed or unexpected files
+Use native approvals and organizational policy. Never bypass Deny/Ask, sandbox, filesystem, URL, MCP or project controls. No permission changes or remote-script piping are required. Reviewed manual installation remains possible.
 
-Treat this as a real integrity difference. It can be a legitimate local customization, a partial install, or unwanted mutation. The verifier does not delete or repair it. Compare against `checksums.sha256`, preserve user changes, and reinstall only after deciding ownership.
+## Demo failure
 
-## PowerShell execution policy blocks scripts
+The seeded baseline is 2 passed, 1 failed. Ask the agent to repair the disposable copy only. Success is 3 unchanged tests passed. Human-reference validation does not establish AI execution.
 
-Review the scripts locally before choosing an execution-policy approach allowed by your organization. You can always follow the manual installation procedure. Do not download and pipe a remote script directly into PowerShell.
-
-## A task becomes overly procedural
-
-Check that only materially relevant skills activated. Each package requires proportional depth and explicitly keeps simple tasks simple. Integrated routing should leave unrelated skills dormant.
+For contribution problems run [the gate](../CONTRIBUTING.md). For vulnerabilities use [private reporting](../SECURITY.md), never public exploit details.

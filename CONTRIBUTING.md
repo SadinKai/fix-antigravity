@@ -1,33 +1,34 @@
 # Contributing
 
-Thank you for helping improve Fix Antigravity.
+Preserve four distinct owners, proportional activation, canonical identities, and authoritative SKILL.md contracts. Do not introduce a fifth orchestrator or weaken an evaluator to pass.
 
-## Before opening an issue
+Report the component, host/surface/version, OS, PowerShell version, and smallest safe reproduction. Separate observation from inference. Exclude credentials, personal paths, private data, transcripts and local backups. Use [private security reporting](SECURITY.md) for vulnerabilities.
 
-- Search existing issues.
-- State which skill, file, Antigravity surface, and version are involved.
-- Separate observed behavior from your interpretation.
-- Include the smallest reproducible prompt or configuration that is safe to share.
-- Remove credentials, personal paths, private repository details, and conversation data.
+## One deterministic gate
 
-Use a security report rather than a public issue for vulnerabilities or sensitive-information exposure; see [SECURITY.md](SECURITY.md).
+Prerequisites: Windows PowerShell 5.1 or PowerShell 7, the complete checkout/archive, and ordinary system-temp access. No Pester, Python, unpublished validator, account or network dependency is required.
 
-## Changes
+~~~powershell
+.\scripts\validate.ps1
+# Explicitly exercise both installed runtimes:
+powershell.exe -NoProfile -NonInteractive -File .\scripts\validate.ps1
+pwsh.exe -NoProfile -NonInteractive -File .\scripts\validate.ps1
+~~~
 
-The four packages are intentionally specialized. Changes should preserve their ownership boundaries and proportional behavior. Do not introduce a fifth orchestrator or make every task activate every skill.
+The gate prints its real runtime and validates exact package inventory/hashes, known frontmatter/metadata, both cases/evals collection shapes, unique IDs/queries, local links, PowerShell syntax, integrated-rule frontmatter, selected evaluation definitions and blank report completeness, existing smoke tests, hardening/fault tests, demo oracles and [targeted correction regressions](tests/correction-tests.ps1). Terminating failures give a nonzero process exit code. Final PASS is deterministic validation only.
 
-For a skill change:
+The -StructureOnly option omits filesystem regression tests and is not the full gate. The metadata check covers the package's restricted known format, not general YAML or security scanning. Tests create uniquely named temporary fixtures, validate cleanup targets and do not traverse junctions during hardening cleanup. Never substitute a real project or global configuration as a test target.
 
-1. Explain the reproduced problem and the affected contract.
-2. Make the smallest justified change.
-3. Add or update focused evaluation cases without weakening unrelated expectations.
-4. Run the package validator and parse all evaluator JSON.
-5. Report what was actually tested and any residual uncertainty.
+## Behavioral evidence and review
 
-Documentation changes must keep each package's `SKILL.md` authoritative. Installer changes must be exercised in an isolated directory, including clean, repeat, conflict, and malformed-configuration cases.
+Follow [the evaluation protocol](docs/evaluation.md). Parser success, reference-answer success and repeating skill vocabulary are not model compliance. Preserve existing case IDs, semantics and both collection shapes.
 
-## Pull requests
+Synthetic PASS/FAIL objects in validator tests exercise schema/accounting only; they are not actual model outputs, attempts or behavioral results. BLOCKED and NOT RUN do not increase executed/completed counts.
 
-Keep pull requests focused. Describe the motivation, affected files, tests run, and compatibility impact. Do not include generated logs, local backups, personal qualification reports, or unrelated cleanup. A passing local test does not establish production readiness or grant authority for consequential actions.
+For a skill change, reproduce the defect, make the smallest correction, update only relevant scenarios, run the gate, and disclose actual model trials or NOT RUN. A tooling-only repair must not change cores.
 
-By contributing, you agree that your contribution may be distributed under the project's [MIT License](LICENSE).
+Keep PRs focused; include affected files, executed commands/results, runtime, security-sensitive changes and residuals. Run git diff --check. Do not commit generated logs/reports/backups or private data.
+
+The prepared Windows CI uses powershell/pwsh, read-only repository permissions and a pinned official checkout action. Hosted results remain pending until reviewed code is pushed. See [compatibility](docs/compatibility.md).
+
+Contributions are distributed under the [MIT license](LICENSE). Local PASS grants neither publication nor production authority.

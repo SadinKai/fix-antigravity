@@ -76,8 +76,10 @@ try {
     Assert-True (-not (Test-Path -LiteralPath (Join-Path $conflictRoot 'evidence-research'))) 'Preflight failure should prevent partial installation.'
     & $installScript -TargetSkillRoot $conflictRoot -ReplaceConflicts
     & $verifyScript -TargetSkillRoot $conflictRoot
-    $packageBackups = @(Get-ChildItem -LiteralPath $conflictRoot -Directory | Where-Object Name -Like 'perfect-code-v2.backup.*')
+    $recoveryRoot = Join-Path (Split-Path -Parent $conflictRoot) 'fix-antigravity-recovery'
+    $packageBackups = @(Get-ChildItem -LiteralPath $recoveryRoot -Recurse -Directory | Where-Object Name -EQ 'backup')
     Assert-True ($packageBackups.Count -eq 1) 'Explicit package replacement should create one recoverable backup.'
+    Assert-True ((Get-ChildItem -LiteralPath $conflictRoot -Directory).Count -eq 4) 'Only four intended packages should remain in the discovery root.'
     $passed++
 
     # Invalid manifest is rejected before package installation.
@@ -102,11 +104,12 @@ try {
     Assert-Throws { & $installScript -TargetSkillRoot $integratedSkillRoot -EnableIntegrated -RulePath $rulePath } 'Changed rule should be treated as a conflict.'
     & $installScript -TargetSkillRoot $integratedSkillRoot -EnableIntegrated -RulePath $rulePath -ReplaceConflicts
     & $verifyScript -TargetSkillRoot $integratedSkillRoot -Integrated -RulePath $rulePath
-    $ruleBackups = @(Get-ChildItem -LiteralPath (Split-Path -Parent $rulePath) -File | Where-Object Name -Like 'four-skill-stack.md.backup.*')
+    $ruleBackups = @(Get-ChildItem -LiteralPath (Join-Path $integratedRoot 'fix-antigravity-recovery') -Recurse -File | Where-Object Name -EQ 'backup')
     Assert-True ($ruleBackups.Count -eq 1) 'Explicit rule replacement should create one recoverable backup.'
     $passed++
 
     Write-Host "PASS: $passed isolated installer scenarios"
+    [pscustomobject]@{ Suite = 'existing smoke'; Passed = $passed; Failed = 0; Skipped = 0 }
 }
 finally {
     $resolvedTemporary = [IO.Path]::GetFullPath($temporaryRoot)

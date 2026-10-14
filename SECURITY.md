@@ -1,20 +1,19 @@
 # Security Policy
 
-## Reporting a vulnerability
+## Private reporting
 
-Do not put secrets, exploit details, private repository data, or personal information in a public issue.
+GitHub private vulnerability reporting for SadinKai/fix-antigravity was **enabled and verified through the live API on 2026-10-14**, after confirming authenticated repository-admin authority.
 
-Use GitHub private vulnerability reporting for this repository if it is enabled. If it is not available, open a non-sensitive issue asking the maintainers to provide a private reporting channel; include no vulnerability details in that issue.
+Use [Report a vulnerability](https://github.com/SadinKai/fix-antigravity/security/advisories/new). Never put secrets, exploit details, private repository data or personal information in a public issue. If the form is unavailable, withhold details: the owner must restore Settings -> Security -> Advanced Security -> Private vulnerability reporting. Do not use a public exploit-report fallback.
 
-Please report:
+Include the affected file/version, impact/preconditions, minimal synthetic reproduction and safe workaround if known. Never include live credentials. No response/remediation SLA is promised; maintenance is community-led.
 
-- the affected skill, script, or document;
-- the security impact and required preconditions;
-- a minimal reproduction that contains no real credentials or private data;
-- any known safe workaround.
+## Scope and realistic limits
 
-## Scope
+Reports may cover instruction-boundary failures, unsafe installation/recovery, configuration corruption, credential exposure or unauthorized consequential behavior. Skills do not replace native permissions or user authorization.
 
-Security reports may cover instruction-boundary failures, unsafe installer behavior, configuration corruption, credential exposure, or a documented behavior that could cause an unauthorized consequential action. The skills do not replace Antigravity's native permission controls, sandboxing, or user authorization.
+The installer performs local filesystem operations, not network transmission, credential retrieval, permission-policy modification or downloaded-code execution. Integrated routing and compatibility registration are opt-in. Backups may contain private configuration; never attach or commit them.
 
-No response-time or remediation-time commitment is asserted until the public maintainership process is established.
+Checksums establish parity, not trusted provenance if substituted too. Tooling rejects observed links/junctions, unsafe paths, unknown files and malformed configuration. It is not a hostile-concurrent-filesystem security boundary; stop competing installers/writers during replacement.
+
+Recovery is verified per destination, not a multi-destination transaction. Interrupted processes or failed restoration may require [manual recovery](docs/installation.md). The deterministic gate is not a comprehensive security audit; [verification limits](docs/compatibility.md) disclose unavailable scanners and host/model evidence.
