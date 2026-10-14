@@ -18,9 +18,35 @@ jobs:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6, official tag inspected 2026-10-14
         with:
           persist-credentials: false
-      - name: Validate in the selected runtime
-        shell: ${{ matrix.shell }}
+      - name: Validate in Windows PowerShell 5.1
+        if: matrix.shell == 'powershell'
+        shell: powershell
         run: |
           $ErrorActionPreference = 'Stop'
+          if ($PSVersionTable.PSVersion.Major -ne 5 -or $PSVersionTable.PSVersion.Minor -ne 1) { throw 'Expected Windows PowerShell 5.1.' }
           $PSVersionTable | Format-Table -AutoSize
           .\scripts\validate.ps1
+      - name: Validate in PowerShell 7.6.5
+        if: matrix.shell == 'pwsh'
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $runtime = (Get-Process -Id $PID).Path
+          # Hosted images roll forward; qualify the requested version exactly.
+          if ($PSVersionTable.PSVersion.ToString() -ne '7.6.5') {
+            $runtimeRoot = Join-Path $env:RUNNER_TEMP ('powershell-7.6.5-' + [Guid]::NewGuid().ToString('N'))
+            $null = New-Item -ItemType Directory -Path $runtimeRoot
+            $archive = Join-Path $runtimeRoot 'powershell.zip'
+            Invoke-WebRequest -Uri 'https://github.com/PowerShell/PowerShell/releases/download/v7.6.5/PowerShell-7.6.5-win-x64.zip' -OutFile $archive
+            if ((Get-FileHash -LiteralPath $archive -Algorithm SHA256).Hash -ne '32eb8f6cdce08f86e987d625a2733e54ac3e289ae7e1621b14c0b5bcec2434ea') { throw 'PowerShell 7.6.5 archive SHA-256 mismatch.' }
+            Expand-Archive -LiteralPath $archive -DestinationPath (Join-Path $runtimeRoot 'runtime')
+            $runtime = Join-Path $runtimeRoot 'runtime\pwsh.exe'
+          }
+          $command = @'
+          $ErrorActionPreference = 'Stop'
+          if ($PSVersionTable.PSVersion.ToString() -ne '7.6.5') { throw 'Expected PowerShell 7.6.5.' }
+          $PSVersionTable | Format-Table -AutoSize
+          .\scripts\validate.ps1
+          '@
+          & $runtime -NoLogo -NoProfile -NonInteractive -Command $command
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
